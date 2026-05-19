@@ -21,25 +21,21 @@ $result = $conn->query($sql);
     <!-- Link naar pagina om nieuwe taak toe te voegen -->
     <a href="toevoegen.php">+ Nieuwe taak toevoegen</a>
 
-    <ul>
-        <?php
-        // Controleren of er resultaten zijn
-        // en elke taak één voor één tonen
-        while ($row = $result->fetch_assoc()) {
-        ?>
-            <li>
-                <!-- Titel van de taak -->
-                <strong>
-                    <?php echo $row['title']; ?>
-                </strong>
+<ul>
+<?php while ($row = $result->fetch_assoc()) { ?>
+    <li>
+        <strong><?php echo $row['title']; ?></strong>
+        - <?php echo $row['status']; ?>
 
-                <!-- Status van de taak (bijv. todo, doing, done) -->
-                - <?php echo $row['status']; ?>
-            </li>
-        <?php
-        }
-        ?>
-    </ul>
+        <!-- Verwijder knop -->
+        <a href="verwijderen.php?id=<?php echo $row['id']; ?>" 
+           onclick="return confirm('Weet je zeker dat je deze taak wilt verwijderen?')">
+           ❌ Verwijderen
+        </a>
+    </li>
+<?php } ?>
+</ul>
+    
 
 </body>
 </html>
