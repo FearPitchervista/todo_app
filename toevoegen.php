@@ -1,56 +1,77 @@
 <?php
-// Verbinding met database
+// Databaseverbinding laden vanuit db.php
 include "db.php";
 
-// Checken of formulier is verzonden
+// Controleren of het formulier is verzonden
 if (isset($_POST['submit'])) {
 
-    // Gegevens uit formulier halen
+    // De ingevulde gegevens uit het formulier ophalen
     $title = $_POST['title'];
     $description = $_POST['description'];
     $deadline = $_POST['deadline'];
 
-    // Standaard status
+    // Nieuwe taken krijgen standaard de status "todo"
     $status = "todo";
 
-    // SQL query om taak toe te voegen
-    $sql = "INSERT INTO tasks (title, description, status, deadline)
-            VALUES ('$title', '$description', '$status', '$deadline')";
+    // Controleren of de titel niet leeg is
+    // trim() verwijdert eventuele spaties voor en achter de tekst
+    if (empty(trim($title))) {
+        die("De titel mag niet leeg zijn.");
+    }
 
-    // Uitvoeren
-    if ($conn->query($sql)) {
-        // terug naar overzicht na succes
+    // Een prepared statement maken
+    // De vraagtekens (?) zijn tijdelijke plaatsaanduidingen voor de gegevens
+    $stmt = $conn->prepare(
+        "INSERT INTO taken (title, description, status, deadline)
+         VALUES (?, ?, ?, ?)"
+    );
+
+    // De variabelen koppelen aan de placeholders
+    // "ssss" betekent dat alle vier de waarden strings (tekst) zijn
+    $stmt->bind_param("ssss", $title, $description, $status, $deadline);
+
+    // De query uitvoeren
+    if ($stmt->execute()) {
+
+        // Na het succesvol toevoegen van een taak
+        // wordt de gebruiker teruggestuurd naar het overzicht
         header("Location: index.php");
         exit();
+
     } else {
-        echo "Fout: " . $conn->error;
+
+        // Een foutmelding tonen als het toevoegen mislukt
+        echo "Fout: " . $stmt->error;
     }
+
+    // Het statement sluiten om geheugen vrij te maken
+    $stmt->close();
 }
 ?>
 
-<!-- HTML formulier -->
+<!-- HTML formulier voor het toevoegen van een nieuwe taak -->
 <h1>Nieuwe taak toevoegen</h1>
 
 <form method="POST">
 
-    <!-- Titel -->
+    <!-- Invoerveld voor de titel van de taak -->
     <label>Titel:</label><br>
     <input type="text" name="title" required><br><br>
 
-    <!-- Beschrijving -->
+    <!-- Tekstvak voor een optionele beschrijving -->
     <label>Beschrijving:</label><br>
     <textarea name="description"></textarea><br><br>
 
-    <!-- Deadline -->
+    <!-- Datumveld voor de deadline -->
     <label>Deadline:</label><br>
     <input type="date" name="deadline"><br><br>
 
-    <!-- Knop -->
+    <!-- Knop om het formulier te versturen -->
     <button type="submit" name="submit">Opslaan</button>
 
 </form>
 
 <br>
 
-<!-- Terug link -->
+<!-- Link om terug te gaan naar het takenoverzicht -->
 <a href="index.php">← Terug</a>

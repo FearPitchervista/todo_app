@@ -2,40 +2,151 @@
 // Verbinding maken met de database
 include "db.php";
 
-// SQL-query: alle taken ophalen uit de tabel "tasks"
-$sql = "SELECT * FROM tasks";
+// SQL-query: alle taken ophalen uit de tabel "taken"
+$sql = "SELECT * FROM taken";
 $result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <title>To-Do App</title>
+
+    <!-- Extern CSS-bestand laden -->
+    <link rel="stylesheet" href="stijl.css">
 </head>
+
+
 <body>
 
     <!-- Hoofdtitel van de pagina -->
     <h1>Mijn taken</h1>
 
-    <!-- Link naar pagina om nieuwe taak toe te voegen -->
-    <a href="toevoegen.php">+ Nieuwe taak toevoegen</a>
+    <!-- Knop om de popup te openen -->
+    <button onclick="openModal()">
+        + Nieuwe taak toevoegen
+    </button>
 
-<ul>
-<?php while ($row = $result->fetch_assoc()) { ?>
-    <li>
-        <strong><?php echo $row['title']; ?></strong>
-        - <?php echo $row['status']; ?>
+    <br><br>
 
-        <!-- Verwijder knop -->
-        <a href="verwijderen.php?id=<?php echo $row['id']; ?>" 
-           onclick="return confirm('Weet je zeker dat je deze taak wilt verwijderen?')">
-           ❌ Verwijderen
-        </a>
-    </li>
-<?php } ?>
-</ul>
-    
+    <!-- Overzicht van alle taken -->
+    <ul>
+
+        <?php while ($row = $result->fetch_assoc()) { ?>
+
+            <li>
+
+                <p><?php echo htmlspecialchars($row['description']); ?></p>
+                <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
+
+                <!-- Titel van de taak tonen -->
+                <strong>
+                    <?php echo htmlspecialchars($row['title']); ?>
+                </strong>
+
+                <!-- Status van de taak tonen -->
+                - <?php echo htmlspecialchars($row['status']); ?>
+
+                <!-- Verwijder knop -->
+                <a href="verwijderen.php?id=<?php echo $row['id']; ?>"
+                   onclick="return confirm('Weet je zeker dat je deze taak wilt verwijderen?')">
+
+                    ❌ Verwijderen
+
+                </a>
+
+            </li>
+
+        <?php } ?>
+
+    </ul>
+
+    <!-- Popupvenster voor het toevoegen van een taak -->
+    <div id="taskModal" class="modal">
+
+        <div class="modal-content">
+
+            <!-- Sluitknop -->
+            <span class="close" onclick="closeModal()">
+                &times;
+            </span>
+
+            <h2>Nieuwe taak toevoegen</h2>
+
+            <!-- Formulier voor het toevoegen van een taak -->
+            <form action="toevoegen.php" method="POST">
+
+                <!-- Titel invoeren -->
+                <label>Titel:</label><br>
+
+                <input type="text"
+                       name="title"
+                       required>
+
+                <br><br>
+
+                <!-- Beschrijving invoeren -->
+                <label>Beschrijving:</label><br>
+
+                <textarea name="description"></textarea>
+
+                <br><br>
+
+                <!-- Deadline kiezen -->
+                <label>Deadline:</label><br>
+
+                <input type="date"
+                       name="deadline">
+
+                <br><br>
+
+                <!-- Formulier verzenden -->
+                <button type="submit"
+                        name="submit">
+
+                    Opslaan
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        // Functie om de popup te openen
+        function openModal() {
+
+            document.getElementById("taskModal").style.display = "block";
+
+        }
+
+        // Functie om de popup te sluiten
+        function closeModal() {
+
+            document.getElementById("taskModal").style.display = "none";
+
+        }
+
+        // Popup sluiten wanneer buiten het venster wordt geklikt
+        window.onclick = function(event) {
+
+            let modal = document.getElementById("taskModal");
+
+            if (event.target == modal) {
+
+                modal.style.display = "none";
+
+            }
+
+        }
+
+    </script>
 
 </body>
+
 </html>

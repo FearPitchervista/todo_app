@@ -1,0 +1,104 @@
+/* Algemene opmaak van de pagina */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+    margin: 40px;
+    color: #333;
+}
+
+/* Hoofdtitel */
+h1 {
+    color: #2c3e50;
+}
+
+/* Knoppen */
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+/* Takenlijst */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* Taakkaart */
+li {
+    background-color: white;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Verwijderlink */
+li a {
+    color: #e74c3c;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+li a:hover {
+    text-decoration: underline;
+}
+
+/* Popup achtergrond */
+.modal {
+    display: none; /* Standaard verborgen */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Popup inhoud */
+.modal-content {
+    background-color: white;
+    width: 50%;
+    max-width: 600px;
+    margin: 8% auto;
+    padding: 25px;
+    border-radius: 10px;
+    position: relative;
+}
+
+/* Sluitknop */
+.close {
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: red;
+}
+
+/* Formuliervelden */
+input[type="text"],
+input[type="date"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+/* Tekstvak beschrijving */
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
