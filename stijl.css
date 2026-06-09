@@ -102,3 +102,15 @@ textarea {
     resize: vertical;
     min-height: 100px;
 }
+
+li.green {
+    border-left: 6px solid green;
+}
+
+li.orange {
+    border-left: 6px solid orange;
+}
+
+li.red {
+    border-left: 6px solid red;
+}

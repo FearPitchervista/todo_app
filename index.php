@@ -5,6 +5,11 @@ include "db.php";
 // SQL-query: alle taken ophalen uit de tabel "taken"
 $sql = "SELECT * FROM taken";
 $result = $conn->query($sql);
+
+// Controle of de query goed is gegaan
+if (!$result) {
+    die("Fout bij ophalen taken: " . $conn->error);
+}
 ?>
 
 <!DOCTYPE html>
@@ -36,9 +41,38 @@ $result = $conn->query($sql);
 
         <?php while ($row = $result->fetch_assoc()) { ?>
 
-            <li>
+    <?php
+    // ===== KLEUR LOGICA PER TAAK =====
 
-                <p><?php echo htmlspecialchars($row['description']); ?></p>
+    $today = new DateTime();
+    $deadline = new DateTime($row['deadline']);
+    $diff = $today->diff($deadline)->days;
+    $isFuture = $deadline >= $today;
+
+    $colorClass = "";
+
+    if (!empty($row['deadline'])) {
+
+        if ($isFuture) {
+
+            if ($diff <= 1) {
+                $colorClass = "red";
+            } elseif ($diff <= 7) {
+                $colorClass = "orange";
+            } else {
+                $colorClass = "green";
+            }
+
+        } else {
+            $colorClass = "red";
+        }
+    }
+    ?>
+
+    <!-- HIER GEBRUIK JE DE CLASS -->
+    <li class="<?php echo $colorClass; ?>">
+
+        <p><?php echo htmlspecialchars($row['description']); ?></p>
                 <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
 
                 <!-- Titel van de taak tonen -->
