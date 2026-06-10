@@ -2,12 +2,17 @@
 // Verbinding maken met de database
 include "db.php";
 
-// SQL-query: alle taken ophalen uit de tabel "taken"
-$sql = "SELECT * FROM taken";
-$result = $conn->query($sql);
+// Taken met status Todo ophalen
+$todo = $conn->query("SELECT * FROM taken WHERE status = 'todo'");
+
+// Taken met status Doing ophalen
+$doing = $conn->query("SELECT * FROM taken WHERE status = 'doing'");
+
+// Taken met status Done ophalen
+$done = $conn->query("SELECT * FROM taken WHERE status = 'done'");
 
 // Controle of de query goed is gegaan
-if (!$result) {
+if (!$todo || !$doing || !$done) {
     die("Fout bij ophalen taken: " . $conn->error);
 }
 ?>
@@ -37,87 +42,64 @@ if (!$result) {
     <br><br>
 
     <!-- Overzicht van alle taken -->
-    <ul>
+    <!-- Trello bord -->
+<div class="board">
 
-        <?php while ($row = $result->fetch_assoc()) { ?>
-
-    <?php
-    // ===== KLEUR LOGICA PER TAAK =====
-
-    $today = new DateTime();
-    $deadline = new DateTime($row['deadline']);
-    $diff = $today->diff($deadline)->days;
-    $isFuture = $deadline >= $today;
-
-    $colorClass = "";
-
-    if (!empty($row['deadline'])) {
-
-        if ($isFuture) {
-
-            if ($diff <= 1) {
-                $colorClass = "red";
-            } elseif ($diff <= 7) {
-                $colorClass = "orange";
-            } else {
-                $colorClass = "green";
-            }
-
-        } else {
-            $colorClass = "red";
-        }
-    }
-    ?>
-
-    <!-- HIER GEBRUIK JE DE CLASS -->
-    <li class="<?php echo $colorClass; ?>">
-
-                <!-- Titel van de taak tonen -->
-                <strong>
-                    <?php echo htmlspecialchars($row['title']); ?>
-                </strong>
-
-                <!-- Status van de taak tonen -->
-                - <?php echo htmlspecialchars($row['status']); ?>
-
-                <!-- Verwijder knop -->
-                <a href="verwijderen.php?id=<?php echo $row['id']; ?>"
-                   onclick="return confirm('Weet je zeker dat je deze taak wilt verwijderen?')">
-
-                    ❌ Verwijderen
-
-                </a>
-                <!-- Bewerk knop -->
-                <a href="bewerken.php?id=<?php echo $row['id']; ?>">
-
-                    ✏️ Bewerken
-                </a>
-
-                <p><?php echo htmlspecialchars($row['description']); ?></p>
-
-                <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
-
-            </li>
-
-        <?php } ?>
-
-    </ul>
-
-    <div class="board">
-
+    <!-- TODO kolom -->
     <div class="column">
         <h2>Todo</h2>
+
+        <?php while ($row = $todo->fetch_assoc()) { ?>
+
+            <div class="card">
+                <strong><?php echo htmlspecialchars($row['title']); ?></strong>
+                <p><?php echo htmlspecialchars($row['description']); ?></p>
+                <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
+
+                <a href="verwijderen.php?id=<?php echo $row['id']; ?>">❌</a>
+                <a href="bewerken.php?id=<?php echo $row['id']; ?>">✏️</a>
+            </div>
+
+        <?php } ?>
     </div>
 
+    <!-- DOING kolom -->
     <div class="column">
         <h2>Doing</h2>
+
+        <?php while ($row = $doing->fetch_assoc()) { ?>
+
+            <div class="card">
+                <strong><?php echo htmlspecialchars($row['title']); ?></strong>
+                <p><?php echo htmlspecialchars($row['description']); ?></p>
+                <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
+
+                <a href="verwijderen.php?id=<?php echo $row['id']; ?>">❌</a>
+                <a href="bewerken.php?id=<?php echo $row['id']; ?>">✏️</a>
+            </div>
+
+        <?php } ?>
     </div>
 
+    <!-- DONE kolom -->
     <div class="column">
         <h2>Done</h2>
+
+        <?php while ($row = $done->fetch_assoc()) { ?>
+
+            <div class="card">
+                <strong><?php echo htmlspecialchars($row['title']); ?></strong>
+                <p><?php echo htmlspecialchars($row['description']); ?></p>
+                <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
+
+                <a href="verwijderen.php?id=<?php echo $row['id']; ?>">❌</a>
+                <a href="bewerken.php?id=<?php echo $row['id']; ?>">✏️</a>
+            </div>
+
+        <?php } ?>
     </div>
 
-</div>
+
 
     <!-- Popupvenster voor het toevoegen van een taak -->
     <div id="taskModal" class="modal">
