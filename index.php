@@ -87,7 +87,7 @@ if (!$result) {
                     ❌ Verwijderen
 
                 </a>
-                <!-- Verwibewerk knop -->
+                <!-- Bewerk knop -->
                 <a href="bewerken.php?id=<?php echo $row['id']; ?>">
 
                     ✏️ Bewerken
@@ -97,12 +97,27 @@ if (!$result) {
 
                 <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
 
-
             </li>
 
         <?php } ?>
 
     </ul>
+
+    <div class="board">
+
+    <div class="column">
+        <h2>Todo</h2>
+    </div>
+
+    <div class="column">
+        <h2>Doing</h2>
+    </div>
+
+    <div class="column">
+        <h2>Done</h2>
+    </div>
+
+</div>
 
     <!-- Popupvenster voor het toevoegen van een taak -->
     <div id="taskModal" class="modal">

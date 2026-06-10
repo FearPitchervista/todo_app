@@ -6,6 +6,8 @@ body {
     color: #333;
 }
 
+
+
 /* Hoofdtitel */
 h1 {
     color: #2c3e50;
@@ -132,4 +134,19 @@ li.red {
 .status-select:focus {
     outline: none;
     border-color: #3498db;
+}
+
+.board {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    border: 3px solid red;
+}
+
+.column {
+    flex: 1;
+    background-color: lightblue;
+    min-height: 300px;
+    padding: 15px;
+    border: 3px solid black;
 }
