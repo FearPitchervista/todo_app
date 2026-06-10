@@ -72,9 +72,6 @@ if (!$result) {
     <!-- HIER GEBRUIK JE DE CLASS -->
     <li class="<?php echo $colorClass; ?>">
 
-        <p><?php echo htmlspecialchars($row['description']); ?></p>
-                <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
-
                 <!-- Titel van de taak tonen -->
                 <strong>
                     <?php echo htmlspecialchars($row['title']); ?>
@@ -90,6 +87,16 @@ if (!$result) {
                     ❌ Verwijderen
 
                 </a>
+                <!-- Verwibewerk knop -->
+                <a href="bewerken.php?id=<?php echo $row['id']; ?>">
+
+                    ✏️ Bewerken
+                </a>
+
+                <p><?php echo htmlspecialchars($row['description']); ?></p>
+
+                <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
+
 
             </li>
 

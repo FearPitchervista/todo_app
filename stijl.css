@@ -114,3 +114,22 @@ li.orange {
 li.red {
     border-left: 6px solid red;
 }
+
+
+/* Dropdown voor status */
+.status-select {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    background-color: white;
+    font-size: 16px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+/* Effect wanneer gebruiker de dropdown selecteert */
+.status-select:focus {
+    outline: none;
+    border-color: #3498db;
+}
