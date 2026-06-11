@@ -26,3 +26,16 @@ $stmt->execute();
 header("Location: index.php");
 exit();
 ?>
+
+<?php
+include "db.php";
+
+// data uit fetch
+$id = $_POST['id'];
+$status = $_POST['status'];
+
+// update in database
+$stmt = $conn->prepare("UPDATE taken SET status = ? WHERE id = ?");
+$stmt->bind_param("si", $status, $id);
+$stmt->execute();
+?>

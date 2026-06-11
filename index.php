@@ -35,7 +35,7 @@ if (!$todo || !$doing || !$done) {
     <h1>Mijn taken</h1>
 
     <!-- Knop om de popup te openen -->
-    <button onclick="openModal()">
+    <button class="add-task-btn" onclick="openModal()">
         + Nieuwe taak toevoegen
     </button>
 
@@ -51,7 +51,7 @@ if (!$todo || !$doing || !$done) {
 
         <?php while ($row = $todo->fetch_assoc()) { ?>
 
-            <div class="card">
+            <div class="card" draggable="true" data-id="<?php echo $row['id']; ?>">
                 <strong><?php echo htmlspecialchars($row['title']); ?></strong>
                 <p><?php echo htmlspecialchars($row['description']); ?></p>
                 <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
@@ -69,7 +69,7 @@ if (!$todo || !$doing || !$done) {
 
         <?php while ($row = $doing->fetch_assoc()) { ?>
 
-            <div class="card">
+            <div class="card" draggable="true" data-id="<?php echo $row['id']; ?>">
                 <strong><?php echo htmlspecialchars($row['title']); ?></strong>
                 <p><?php echo htmlspecialchars($row['description']); ?></p>
                 <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
@@ -87,7 +87,7 @@ if (!$todo || !$doing || !$done) {
 
         <?php while ($row = $done->fetch_assoc()) { ?>
 
-            <div class="card">
+            <div class="card" draggable="true" data-id="<?php echo $row['id']; ?>">
                 <strong><?php echo htmlspecialchars($row['title']); ?></strong>
                 <p><?php echo htmlspecialchars($row['description']); ?></p>
                 <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
@@ -98,8 +98,6 @@ if (!$todo || !$doing || !$done) {
 
         <?php } ?>
     </div>
-
-
 
     <!-- Popupvenster voor het toevoegen van een taak -->
     <div id="taskModal" class="modal">
@@ -182,6 +180,46 @@ if (!$todo || !$doing || !$done) {
             }
 
         }
+        let draggedCard = null;
+
+// cards selecteren
+document.querySelectorAll('.card').forEach(card => {
+
+    card.addEventListener('dragstart', function () {
+        draggedCard = this;
+    });
+
+});
+
+// kolommen
+document.querySelectorAll('.column').forEach(column => {
+
+    column.addEventListener('dragover', function (e) {
+        e.preventDefault();
+    });
+
+    column.addEventListener('drop', function () {
+
+        if (!draggedCard) return;
+
+        this.appendChild(draggedCard);
+
+        let newStatus = this.querySelector('h2').innerText.toLowerCase();
+        let id = draggedCard.getAttribute('data-id');
+
+        // update naar database
+        fetch('update_status.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `id=${id}&status=${newStatus}`
+        });
+
+        draggedCard = null;
+    });
+
+});
 
     </script>
 
