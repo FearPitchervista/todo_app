@@ -122,15 +122,15 @@ textarea {
     min-height: 100px;
 }
 
-li.green {
+.card.green {
     border-left: 6px solid green;
 }
 
-li.orange {
+.card.orange {
     border-left: 6px solid orange;
 }
 
-li.red {
+.card.red {
     border-left: 6px solid red;
 }
 
@@ -167,20 +167,43 @@ li.red {
     border-radius: 12px;
     padding: 15px;
     min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-
+/* kolom titel */
+.column h2 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: #172b4d;
+}
 
 .card {
     background: white;
-    padding: 15px;
-    margin-bottom: 12px;
-    border-radius: 8px;
+    padding: 12px;
+    border-radius: 10px;
     cursor: grab;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    user-select: none;
 }
 
+/* hover effect */
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+/* tijdens slepen */
 .card:active {
     cursor: grabbing;
+    transform: rotate(1deg);
+    opacity: 0.8;
+}
 
+/* drag-over effect (komt uit JS class) */
+.column.drag-over {
+    background-color: #dfe6f1;
+    border: 2px dashed #3498db;
 }

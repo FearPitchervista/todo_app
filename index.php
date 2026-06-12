@@ -43,62 +43,141 @@ if (!$todo || !$doing || !$done) {
 
     <!-- Overzicht van alle taken -->
     <!-- Trello bord -->
-<div class="board">
+    <div class="board">
 
-    <!-- TODO kolom -->
-    <div class="column">
-        <h2>Todo</h2>
+        <!-- TODO kolom -->
+        <div class="column">
+            <h2>Todo</h2>
 
-        <?php while ($row = $todo->fetch_assoc()) { ?>
+            <?php while ($row = $todo->fetch_assoc()) { ?>
 
-            <div class="card" draggable="true" data-id="<?php echo $row['id']; ?>">
-                <strong><?php echo htmlspecialchars($row['title']); ?></strong>
-                <p><?php echo htmlspecialchars($row['description']); ?></p>
-                <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
+                <?php
+                $colorClass = "";
 
-                <a href="verwijderen.php?id=<?php echo $row['id']; ?>">❌</a>
-                <a href="bewerken.php?id=<?php echo $row['id']; ?>">✏️</a>
-            </div>
+                if (!empty($row['deadline'])) {
 
-        <?php } ?>
+                    $today = new DateTime();
+                    $deadline = new DateTime($row['deadline']);
+
+                    $diff = $today->diff($deadline)->days;
+                    $isFuture = $deadline >= $today;
+
+                    if ($isFuture) {
+
+                        if ($diff <= 1) {
+                            $colorClass = "red";
+                        } elseif ($diff <= 7) {
+                            $colorClass = "orange";
+                        } else {
+                            $colorClass = "green";
+                        }
+                    } else {
+                        $colorClass = "red";
+                    }
+                }
+                ?>
+
+                <div class="card <?php echo $colorClass; ?>" draggable="true" data-id="<?php echo $row['id']; ?>">
+                    <strong><?php echo htmlspecialchars($row['title']); ?></strong>
+                    <p><?php echo htmlspecialchars($row['description']); ?></p>
+                    <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
+
+                    <a href="verwijderen.php?id=<?php echo $row['id']; ?>">❌</a>
+                    <a href="bewerken.php?id=<?php echo $row['id']; ?>">✏️</a>
+                </div>
+
+            <?php } ?>
+        </div>
+
+        <!-- DOING kolom -->
+        <div class="column">
+            <h2>Doing</h2>
+
+            <?php while ($row = $doing->fetch_assoc()) { ?>
+
+                <?php
+                $colorClass = "";
+
+                if (!empty($row['deadline'])) {
+
+                    $today = new DateTime();
+                    $deadline = new DateTime($row['deadline']);
+
+                    $diff = $today->diff($deadline)->days;
+                    $isFuture = $deadline >= $today;
+
+                    if ($isFuture) {
+
+                        if ($diff <= 1) {
+                            $colorClass = "red";
+                        } elseif ($diff <= 7) {
+                            $colorClass = "orange";
+                        } else {
+                            $colorClass = "green";
+                        }
+                    } else {
+                        $colorClass = "red";
+                    }
+                }
+                ?>
+
+                <div class="card <?php echo $colorClass; ?>" draggable="true" data-id="<?php echo $row['id']; ?>">
+                    <strong><?php echo htmlspecialchars($row['title']); ?></strong>
+                    <p><?php echo htmlspecialchars($row['description']); ?></p>
+                    <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
+
+                    <a href="verwijderen.php?id=<?php echo $row['id']; ?>">❌</a>
+                    <a href="bewerken.php?id=<?php echo $row['id']; ?>">✏️</a>
+                </div>
+
+            <?php } ?>
+        </div>
+
+        <!-- DONE kolom -->
+        <div class="column">
+            <h2>Done</h2>
+
+            <?php while ($row = $done->fetch_assoc()) { ?>
+
+                <?php
+                $colorClass = "";
+
+                if (!empty($row['deadline'])) {
+
+                    $today = new DateTime();
+                    $deadline = new DateTime($row['deadline']);
+
+                    $diff = $today->diff($deadline)->days;
+                    $isFuture = $deadline >= $today;
+
+                    if ($isFuture) {
+
+                        if ($diff <= 1) {
+                            $colorClass = "red";
+                        } elseif ($diff <= 7) {
+                            $colorClass = "orange";
+                        } else {
+                            $colorClass = "green";
+                        }
+                    } else {
+                        $colorClass = "red";
+                    }
+                }
+                ?>
+
+                <div class="card <?php echo $colorClass; ?>" draggable="true" data-id="<?php echo $row['id']; ?>">
+                    <strong><?php echo htmlspecialchars($row['title']); ?></strong>
+                    <p><?php echo htmlspecialchars($row['description']); ?></p>
+                    <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
+
+                    <a href="verwijderen.php?id=<?php echo $row['id']; ?>">❌</a>
+                    <a href="bewerken.php?id=<?php echo $row['id']; ?>">✏️</a>
+                </div>
+
+            <?php } ?>
+        </div>
+
     </div>
-
-    <!-- DOING kolom -->
-    <div class="column">
-        <h2>Doing</h2>
-
-        <?php while ($row = $doing->fetch_assoc()) { ?>
-
-            <div class="card" draggable="true" data-id="<?php echo $row['id']; ?>">
-                <strong><?php echo htmlspecialchars($row['title']); ?></strong>
-                <p><?php echo htmlspecialchars($row['description']); ?></p>
-                <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
-
-                <a href="verwijderen.php?id=<?php echo $row['id']; ?>">❌</a>
-                <a href="bewerken.php?id=<?php echo $row['id']; ?>">✏️</a>
-            </div>
-
-        <?php } ?>
-    </div>
-
-    <!-- DONE kolom -->
-    <div class="column">
-        <h2>Done</h2>
-
-        <?php while ($row = $done->fetch_assoc()) { ?>
-
-            <div class="card" draggable="true" data-id="<?php echo $row['id']; ?>">
-                <strong><?php echo htmlspecialchars($row['title']); ?></strong>
-                <p><?php echo htmlspecialchars($row['description']); ?></p>
-                <p>Deadline: <?php echo htmlspecialchars($row['deadline']); ?></p>
-
-                <a href="verwijderen.php?id=<?php echo $row['id']; ?>">❌</a>
-                <a href="bewerken.php?id=<?php echo $row['id']; ?>">✏️</a>
-            </div>
-
-        <?php } ?>
-    </div>
-
     <!-- Popupvenster voor het toevoegen van een taak -->
     <div id="taskModal" class="modal">
 
@@ -118,8 +197,8 @@ if (!$todo || !$doing || !$done) {
                 <label>Titel:</label><br>
 
                 <input type="text"
-                       name="title"
-                       required>
+                    name="title"
+                    required>
 
                 <br><br>
 
@@ -134,13 +213,13 @@ if (!$todo || !$doing || !$done) {
                 <label>Deadline:</label><br>
 
                 <input type="date"
-                       name="deadline">
+                    name="deadline">
 
                 <br><br>
 
                 <!-- Formulier verzenden -->
                 <button type="submit"
-                        name="submit">
+                    name="submit">
 
                     Opslaan
 
@@ -153,7 +232,6 @@ if (!$todo || !$doing || !$done) {
     </div>
 
     <script>
-
         // Functie om de popup te openen
         function openModal() {
 
@@ -180,49 +258,8 @@ if (!$todo || !$doing || !$done) {
             }
 
         }
-        let draggedCard = null;
-
-// cards selecteren
-document.querySelectorAll('.card').forEach(card => {
-
-    card.addEventListener('dragstart', function () {
-        draggedCard = this;
-    });
-
-});
-
-// kolommen
-document.querySelectorAll('.column').forEach(column => {
-
-    column.addEventListener('dragover', function (e) {
-        e.preventDefault();
-    });
-
-    column.addEventListener('drop', function () {
-
-        if (!draggedCard) return;
-
-        this.appendChild(draggedCard);
-
-        let newStatus = this.querySelector('h2').innerText.toLowerCase();
-        let id = draggedCard.getAttribute('data-id');
-
-        // update naar database
-        fetch('update_status.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `id=${id}&status=${newStatus}`
-        });
-
-        draggedCard = null;
-    });
-
-});
-
     </script>
-
+    <script src="script.js"></script>
 </body>
 
 </html>

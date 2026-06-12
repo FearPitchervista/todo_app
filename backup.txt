@@ -67,15 +67,46 @@
 
 
 
-    button {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-}
 
-button:hover {
-    background-color: #2980b9;
-}
+
+
+let draggedCard = null;
+
+// cards selecteren
+document.querySelectorAll('.card').forEach(card => {
+
+    card.addEventListener('dragstart', function () {
+        draggedCard = this;
+    });
+
+});
+
+// kolommen
+document.querySelectorAll('.column').forEach(column => {
+
+    column.addEventListener('dragover', function (e) {
+        e.preventDefault();
+    });
+
+    column.addEventListener('drop', function () {
+
+        if (!draggedCard) return;
+
+        this.appendChild(draggedCard);
+
+        let newStatus = this.querySelector('h2').innerText.toLowerCase();
+        let id = draggedCard.getAttribute('data-id');
+
+        // update naar database
+        fetch('update_status.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `id=${id}&status=${newStatus}`
+        });
+
+        draggedCard = null;
+    });
+
+});

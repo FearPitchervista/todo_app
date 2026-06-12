@@ -25,7 +25,6 @@ if ($stmt->execute()) {
     // terugsturen naar de overzichtspagina
     header("Location: index.php");
     exit();
-
 } else {
 
     // Als er iets fout gaat, toon de foutmelding
@@ -34,4 +33,3 @@ if ($stmt->execute()) {
 
 // Het statement sluiten
 $stmt->close();
-?>

@@ -28,63 +28,64 @@ $task = $result->fetch_assoc();
 
 <body>
 
-<!-- Titel pagina -->
-<h1>Taak bewerken</h1>
+    <!-- Titel pagina -->
+    <h1>Taak bewerken</h1>
 
-<!-- Formulier om taak te updaten -->
-<form action="update.php" method="POST">
+    <!-- Formulier om taak te updaten -->
+    <form action="update.php" method="POST">
 
-    <!-- ID van taak (verborgen veld) -->
-    <input type="hidden" name="id" value="<?php echo $task['id']; ?>">
+        <!-- ID van taak (verborgen veld) -->
+        <input type="hidden" name="id" value="<?php echo $task['id']; ?>">
 
-    <!-- Titel van taak -->
-    <label>Titel:</label><br>
-    <input type="text" name="title"
-           value="<?php echo htmlspecialchars($task['title']); ?>"
-           required>
+        <!-- Titel van taak -->
+        <label>Titel:</label><br>
+        <input type="text" name="title"
+            value="<?php echo htmlspecialchars($task['title']); ?>"
+            required>
 
-    <br><br>
+        <br><br>
 
-    <!-- Beschrijving -->
-    <label>Beschrijving:</label><br>
-    <textarea name="description"><?php echo htmlspecialchars($task['description']); ?></textarea>
+        <!-- Beschrijving -->
+        <label>Beschrijving:</label><br>
+        <textarea name="description"><?php echo htmlspecialchars($task['description']); ?></textarea>
 
-    <br><br>
+        <br><br>
 
-    <!-- Deadline -->
-    <label>Deadline:</label><br>
-    <input type="date" name="deadline"
-           value="<?php echo $task['deadline']; ?>">
+        <!-- Deadline -->
+        <label>Deadline:</label><br>
+        <input type="date" name="deadline"
+            value="<?php echo $task['deadline']; ?>">
 
-    <br><br>
+        <br><br>
 
-    <!-- Status kiezen -->
-    <label for="status">Status:</label><br>
+        <!-- Status kiezen -->
+        <label for="status">Status:</label><br>
 
-    <select name="status" id="status" class="status-select">
+        <select name="status" id="status" class="status-select">
 
-    <option value="todo" <?php if ($task['status'] == "todo") echo "selected"; ?>>
-        📋 To Do
-    </option>
+            <option value="todo" <?php if ($task['status'] == "todo") echo "selected"; ?>>
+                📋 To Do
+            </option>
 
-    <option value="doing" <?php if ($task['status'] == "doing") echo "selected"; ?>>
-        ⚙️ Doing
-    </option>
+            <option value="doing" <?php if ($task['status'] == "doing") echo "selected"; ?>>
+                ⚙️ Doing
+            </option>
 
-    <option value="done" <?php if ($task['status'] == "done") echo "selected"; ?>>
-        ✅ Done
-    </option>
+            <option value="done" <?php if ($task['status'] == "done") echo "selected"; ?>>
+                ✅ Done
+            </option>
 
-    </select>
+        </select>
 
-    <br><br>
+        <br><br>
 
-    <!-- Opslaan knop -->
-    <button type="submit" name="submit">
-        Opslaan
-    </button>
+        <!-- Opslaan knop -->
+        <button type="submit" name="submit">
+            Opslaan
+        </button>
 
-</form>
+    </form>
 
 </body>
+
 </html>
