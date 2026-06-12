@@ -230,35 +230,6 @@ if (!$todo || !$doing || !$done) {
         </div>
 
     </div>
-
-    <script>
-        // Functie om de popup te openen
-        function openModal() {
-
-            document.getElementById("taskModal").style.display = "block";
-
-        }
-
-        // Functie om de popup te sluiten
-        function closeModal() {
-
-            document.getElementById("taskModal").style.display = "none";
-
-        }
-
-        // Popup sluiten wanneer buiten het venster wordt geklikt
-        window.onclick = function(event) {
-
-            let modal = document.getElementById("taskModal");
-
-            if (event.target == modal) {
-
-                modal.style.display = "none";
-
-            }
-
-        }
-    </script>
     <script src="script.js"></script>
 </body>
 
